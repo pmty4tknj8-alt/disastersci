@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disaster Science — Earth Hero + Global Watch</title>
+<style>html,body{margin:0;padding:0;width:100%;background:#030407;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}body{overflow-x:hidden}#scene{position:fixed;inset:0;display:block;z-index:1}#scroll-spacer{position:relative;width:100%;height:200vh;pointer-events:none;z-index:2}#recede-dark{position:fixed;inset:0;z-index:14;background:#04070C;opacity:0;pointer-events:none}#topbar{position:fixed;top:0;left:0;right:0;z-index:26;display:flex;align-items:center;justify-content:space-between;padding:20px 28px;pointer-events:none}#topbar>*{pointer-events:auto}.brand{display:flex;align-items:center;gap:0;text-decoration:none;white-space:nowrap}.brand-logo{height:34px;width:24px;display:block;opacity:0;transform:scale(.7) translateY(2px);transition:opacity .8s ease,transform .9s cubic-bezier(.16,1,.3,1);filter:drop-shadow(0 0 10px rgba(127,180,255,.25))}.brand.logo-in .brand-logo{opacity:1;transform:none}.brand-word{display:inline-flex;align-items:center;font-size:13px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:#F2F5FA;max-width:0;opacity:0;margin-left:0;overflow:hidden;transition:max-width .9s cubic-bezier(.16,1,.3,1),opacity .7s ease .15s,margin-left .9s cubic-bezier(.16,1,.3,1)}.brand.word-in .brand-word{max-width:320px;opacity:1;margin-left:12px}.brand-word .bw-light{font-weight:300}.brand-word strong{font-weight:500}#nav{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:4px;padding:5px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4)}.nav-link{padding:9px 20px;border-radius:999px;font-size:13px;font-weight:400;color:rgba(230,236,246,.72);text-decoration:none;white-space:nowrap;transition:background .25s ease,color .25s ease}.nav-link:hover{color:#FFFFFF;background:rgba(255,255,255,.07)}.nav-link.active{background:rgba(255,255,255,.92);color:#0B0F16;font-weight:500}#topright{display:flex;align-items:center;gap:10px}.contact-btn{display:flex;align-items:center;gap:9px;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.92);color:#0B0F16;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;transition:background .25s ease}.contact-btn:hover{background:#FFFFFF}.contact-btn .dot{width:8px;height:8px;border-radius:50%;background:#4A8DE0}#lang{position:relative}#lang-btn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);color:#EDF2F9;font-size:12px;letter-spacing:.08em;cursor:pointer;font-family:inherit}#lang-btn:hover{background:rgba(255,255,255,.10)}.flag{display:block;width:18px;height:13px;border-radius:2.5px;overflow:hidden;flex-shrink:0}.flag svg{display:block;width:100%;height:100%}#lang-btn .chev{width:10px;height:10px;opacity:.6;transition:transform .25s ease}#lang.open #lang-btn .chev{transform:rotate(180deg)}#lang-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:176px;background:rgba(12,16,24,.78);border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(30px) saturate(1.4);-webkit-backdrop-filter:blur(30px) saturate(1.4);border-radius:14px;padding:6px;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .25s ease,transform .3s cubic-bezier(.2,.8,.2,1)}#lang.open #lang-menu{opacity:1;transform:none;pointer-events:auto}.lang-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;font-size:12px;color:rgba(230,236,246,.8);cursor:pointer;transition:background .2s ease,color .2s ease}.lang-item:hover{background:rgba(255,255,255,.08);color:#FFFFFF}.lang-item.sel{background:rgba(255,255,255,.06);color:#FFFFFF}#loader{position:fixed;inset:0;z-index:40;background:#030407;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity 1.2s ease}#loader.hidden{opacity:0;pointer-events:none}.loader-line{width:120px;height:1px;background:rgba(255,255,255,.12);position:relative;overflow:hidden}.loader-line::after{content:'';position:absolute;left:-40%;top:0;width:40%;height:100%;background:#7FB4FF;animation:sweep 1.4s ease-in-out infinite}@keyframes sweep{to{left:100%}}.loader-label{font-size:10px;letter-spacing:.45em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:300}#overlay{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:center;padding:0 7vw;pointer-events:none;transition:opacity .8s ease,transform .8s ease}#overlay.fading{opacity:0;transform:translateY(-30px)}#overlay .eyebrow,#overlay h1,#overlay .sub{opacity:0;transform:translateY(26px);transition:opacity 1.1s ease,transform 1.2s cubic-bezier(.16,1,.3,1)}#overlay.visible .eyebrow{opacity:1;transform:none;transition-delay:0s}#overlay.visible h1{opacity:1;transform:none;transition-delay:.18s}#overlay.visible .sub{opacity:1;transform:none;transition-delay:.36s}.eyebrow{font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:#7FB4FF;font-weight:400;margin:0 0 22px}h1{font-size:clamp(34px,5.2vw,74px);line-height:1.06;font-weight:200;letter-spacing:-0.01em;color:#F4F6FA;margin:0 0 26px;max-width:12em}h1 em{font-style:normal;font-weight:500}.sub{font-size:clamp(13px,1.1vw,16px);line-height:1.7;color:rgba(220,228,240,.62);font-weight:300;max-width:34em;margin:0}#hint{position:fixed;left:50%;bottom:34px;z-index:20;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;transition:opacity .9s ease .5s}#hint.visible{opacity:1}#hint.fading{opacity:0;transition-delay:0s}.hint-label{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,.4)}.hint-track{width:1px;height:44px;background:rgba(255,255,255,.14);position:relative;overflow:hidden}.hint-track::after{content:'';position:absolute;top:-50%;left:0;width:100%;height:50%;background:linear-gradient(to bottom,transparent,#7FB4FF);animation:drop 1.8s ease-in-out infinite}@keyframes drop{to{top:110%}}#watch{position:fixed;top:0;right:0;bottom:0;z-index:22;width:min(520px,46vw);display:flex;flex-direction:column;justify-content:center;padding:72px 3.5vw 0 0;pointer-events:none}#watch-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 16px;padding:0 4px;opacity:0;transform:translateX(40px);transition:opacity .7s ease,transform .8s cubic-bezier(.16,1,.3,1)}#watch.on #watch-head{opacity:1;transform:none}#watch-title{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:rgba(240,244,250,.85);font-weight:400;margin:0}#watch-upd{font-size:9px;letter-spacing:.06em;color:rgba(200,210,225,.4);font-variant-numeric:tabular-nums}.card{pointer-events:auto;display:flex;gap:16px;align-items:flex-start;margin:7px 0;padding:18px 20px;border-radius:18px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);text-decoration:none;cursor:pointer;opacity:0;transform:translateX(48px);transition:opacity .6s ease,transform .45s cubic-bezier(.2,.8,.2,1),background .35s ease,border-color .35s ease;will-change:transform}#watch.on .card{opacity:1;transform:none}#watch.on .card:nth-child(2){transition-delay:.05s}#watch.on .card:nth-child(3){transition-delay:.12s}#watch.on .card:nth-child(4){transition-delay:.19s}#watch.on .card:nth-child(5){transition-delay:.26s}.card:hover{background:rgba(255,255,255,.095);border-color:rgba(255,255,255,.20);transform:scale(1.045) !important;transition-delay:0s !important}.card-icon{width:52px;height:52px;flex-shrink:0;border-radius:13px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center}.card-icon svg{width:24px;height:24px;stroke:rgba(235,240,248,.85);fill:none;stroke-width:1.5}.card-body{min-width:0;flex:1}.card-title{font-size:14px;font-weight:500;color:#F2F5FA;margin:0 0 4px;line-height:1.35;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.card-blurb{font-size:12px;line-height:1.55;color:rgba(205,214,228,.6);margin:0 0 8px;font-weight:300;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}.card-meta{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(190,200,216,.45);font-variant-numeric:tabular-nums}.card-badge{padding:2px 8px;border-radius:5px;border:1px solid rgba(255,255,255,.22);color:rgba(240,244,250,.8);font-size:9px;letter-spacing:.12em}#watch-more{pointer-events:auto;align-self:flex-end;margin:14px 4px 0;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,212,230,.5);text-decoration:none;opacity:0;transition:opacity .7s ease .35s,color .3s ease}#watch.on #watch-more{opacity:1}#watch-more:hover{color:rgba(240,246,255,.9)}.dark-sec{position:relative;z-index:30;padding:84px 6vw;box-sizing:border-box;max-width:1280px;margin:0 auto}.sec-eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#7FB4FF;margin:0 0 14px}.sec-title{font-size:clamp(26px,3.4vw,46px);font-weight:200;letter-spacing:-0.01em;color:#F2F5FA;margin:0 0 40px;max-width:17em;line-height:1.1}.sec-title em{font-style:normal;font-weight:500}.sec-lead{font-size:clamp(15px,1.5vw,20px);font-weight:300;line-height:1.7;color:rgba(220,228,240,.68);max-width:38em;margin:0 0 40px}.glass{border-radius:20px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);box-sizing:border-box}.media-window{border-radius:20px;min-height:210px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;box-sizing:border-box}.mw-ico{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.20);display:flex;align-items:center;justify-content:center;color:rgba(220,228,240,.55)}.mw-ico svg{width:20px;height:20px}.media-window .mw-label{font-size:11px;letter-spacing:.06em;color:rgba(200,210,225,.42)}.zz-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;margin-bottom:20px}.stat-card{padding:32px 30px;display:flex;flex-direction:column;justify-content:center}.stat-kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(200,212,230,.55);margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.10)}.stat-num{font-size:clamp(48px,5.4vw,82px);font-weight:200;letter-spacing:-0.02em;color:#F4F7FC;margin:0 0 16px;line-height:1}.stat-num .u{font-size:.42em;font-weight:300;color:rgba(220,228,240,.6)}.stat-num .ar{color:#7FB4FF;font-weight:300}.stat-desc{font-size:14px;line-height:1.6;margin:0;font-weight:300;color:rgba(210,220,234,.62)}.stats-src{margin:26px 2px 0;font-size:10px;color:rgba(160,175,195,.5);letter-spacing:.04em}.split-text{padding:8px 4px;display:flex;flex-direction:column;justify-content:center}.split-title{font-size:clamp(20px,2.2vw,30px);font-weight:400;color:#EEF2F8;margin:0 0 14px;line-height:1.2}.split-title .ic{display:inline-flex;margin-right:10px;color:#7FB4FF;vertical-align:-3px}.split-body{font-size:14px;line-height:1.7;font-weight:300;color:rgba(210,220,234,.66);margin:0}.cycle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}.cycle-chip{padding:22px 18px;display:flex;flex-direction:column;gap:10px}.cycle-chip .ci{width:38px;height:38px;border-radius:11px;background:rgba(127,180,255,.12);border:1px solid rgba(127,180,255,.22);display:flex;align-items:center;justify-content:center;color:#9CC4FF}.cycle-chip .ct{font-size:14px;font-weight:500;color:#EEF2F8;margin:0}.cycle-chip .cd{font-size:12px;line-height:1.5;color:rgba(200,212,230,.55);margin:0}.cta-sec{text-align:center;padding:96px 6vw;position:relative;z-index:30}.cta-title{font-size:clamp(28px,4vw,56px);font-weight:200;color:#F4F7FC;margin:0 auto 30px;max-width:16em;line-height:1.12}.cta-btn{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:999px;background:rgba(255,255,255,.94);color:#0B0F16;font-size:15px;font-weight:500;text-decoration:none;transition:background .25s ease,transform .25s ease}.cta-btn:hover{background:#FFFFFF;transform:translateY(-2px)}.cta-btn .dot{width:8px;height:8px;border-radius:50%;background:#4A8DE0}.footer{position:relative;z-index:30;border-top:1px solid rgba(255,255,255,.09);padding:54px 6vw 40px;max-width:1280px;margin:0 auto;box-sizing:border-box}.footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:30px;margin-bottom:40px}.footer-brand{font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#F2F5FA;font-weight:300}.footer-brand strong{font-weight:500}.footer-tag{font-size:12px;color:rgba(200,210,225,.5);margin-top:10px;max-width:24em;line-height:1.6}.footer-links{display:flex;gap:46px;flex-wrap:wrap}.footer-col h4{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(160,175,195,.6);margin:0 0 14px;font-weight:500}.footer-col a{display:block;font-size:13px;color:rgba(215,224,238,.7);text-decoration:none;margin-bottom:9px;transition:color .2s ease}.footer-col a:hover{color:#FFFFFF}.footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:11px;color:rgba(150,165,185,.5);border-top:1px solid rgba(255,255,255,.07);padding-top:22px}@media (max-width:760px){.zz-row{grid-template-columns:1fr}.zz-row .media-window{min-height:170px}.zz-row .mobile-first{order:-1}}@media (max-width:900px){#nav{display:none}}@media (max-width:760px){#watch{width:100%;padding:72px 16px 22px;justify-content:flex-end}#overlay{justify-content:flex-start;padding-top:18vh}.contact-btn{display:none}}@media (prefers-reduced-motion:reduce){.hint-track::after,.loader-line::after{animation:none}}</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="recede-dark"></div>
+<div id="loader">
+<div class="loader-line"></div>
+<div class="loader-label">Disaster Science</div>
+</div>
+<div id="topbar">
+<a class="brand" href="https://www.disastersci.com" target="_top" aria-label="Disaster Science">
+<svg class="brand-logo" id="brand-logo" viewBox="0 0 40 56" fill="none" stroke="#7FB4FF" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 4c-1.6 5-9 9.5-9 17.5 0 6.4 4 10.5 9 10.5s9-4.1 9-10.5"/><path d="M20 14v38"/></svg>
+<span class="brand-word"><span class="bw-light">Disaster</span> <strong>Science</strong></span>
+</a>
+<nav id="nav">
+<a class="nav-link active" data-nav="0" href="#" onclick="return false;">Главная</a>
+<a class="nav-link" data-nav="1" href="https://www.disastersci.com/disaster-risk-management" target="_top">DRM</a>
+<a class="nav-link" data-nav="2" href="https://www.disastersci.com/nature-based-solutions" target="_top">Природа</a>
+<a class="nav-link" data-nav="3" href="https://www.disastersci.com/research" target="_top">Исследования</a>
+<a class="nav-link" data-nav="4" href="https://www.disastersci.com/insights" target="_top">Insights</a>
+</nav>
+<div id="topright">
+<div id="lang">
+<button id="lang-btn" aria-label="Язык">
+<span class="flag" id="lang-flag"></span>
+<span id="lang-code">RU</span>
+<svg class="chev" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>
+</button>
+<div id="lang-menu"></div>
+</div>
+<a class="contact-btn" id="contact-btn" href="https://www.disastersci.com/contact" target="_top">Связаться<span class="dot"></span></a>
+</div>
+</div>
+<div id="overlay">
+<p class="eyebrow" id="t-eyebrow">Solutions for Tomorrow</p>
+<h1 id="t-title">Когда приходит стихия, <em>готовность</em> решает всё.</h1>
+<p class="sub" id="t-sub">Управление рисками катастроф и природные решения — помогаем сообществам готовиться, отвечать и восстанавливаться.</p>
+</div>
+<div id="hint">
+<span class="hint-label" id="t-hint">Листайте</span>
+<div class="hint-track"></div>
+</div>
+<div id="watch">
+<div id="watch-head">
+<p id="watch-title">Global Watch</p>
+<span id="watch-upd"></span>
+</div>
+<div id="cards"></div>
+<a id="watch-more" href="https://www.disastersci.com/insights" target="_blank" rel="noopener">Весь мониторинг →</a>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>(function () {
+'use strict';
+var FLAGS = {
+ru: '<svg viewBox="0 0 3 2"><rect width="3" height="2" fill="#FFFFFF"/><rect y="0.667" width="3" height="1.333" fill="#0039A6"/><rect y="1.333" width="3" height="0.667" fill="#D52B1E"/></svg>',
+en: '<svg viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#FFFFFF" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="2.4"/><rect x="25" width="10" height="30" fill="#FFFFFF"/><rect y="10" width="60" height="10" fill="#FFFFFF"/><rect x="27" width="6" height="30" fill="#C8102E"/><rect y="12" width="60" height="6" fill="#C8102E"/></svg>',
+es: '<svg viewBox="0 0 3 2"><rect width="3" height="2" fill="#AA151B"/><rect y="0.5" width="3" height="1" fill="#F1BF00"/></svg>',
+zh: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#DE2910"/><polygon points="5,2 6.18,5.63 10,5.63 6.91,7.87 8.09,11.5 5,9.26 1.91,11.5 3.09,7.87 0,5.63 3.82,5.63" fill="#FFDE00" transform="scale(0.9) translate(1.2,1)"/><circle cx="11" cy="2.5" r="0.8" fill="#FFDE00"/><circle cx="12.5" cy="5" r="0.8" fill="#FFDE00"/><circle cx="12.5" cy="8" r="0.8" fill="#FFDE00"/><circle cx="11" cy="10.5" r="0.8" fill="#FFDE00"/></svg>'
+};
+var I18N = {
+ru: {
+name: 'Русский', code: 'RU',
+nav: ['Главная', 'DRM', 'Природа', 'Исследования', 'Insights'],
+contact: 'Связаться',
+eyebrow: 'Solutions for Tomorrow',
+title: 'Когда приходит стихия, <em>готовность</em> решает всё.',
+sub: 'Управление рисками катастроф и природные решения — помогаем сообществам готовиться, отвечать и восстанавливаться.',
+hint: 'Листайте', watch: 'Global Watch', upd: 'обновлено', demo: 'демо-данные',
+more: 'Весь мониторинг →', ours: 'Наш анализ',
+now: 'только что', h: ' ч назад', d: ' д назад', quake: 'Землетрясение',
+autoEONET: 'Активное событие по данным наблюдений NASA EONET.',
+autoUSGS: 'Значимое сейсмособытие по данным USGS.',
+stEyebrow: 'Цена неготовности', stTitle: 'Цена неготовности — и что её меняет.',
+s1k: 'Разрыв защиты', s1d: 'Потерь от катастроф 2024 года не были застрахованы — удар приняли сами сообщества.',
+s2k: 'Готовность окупается', s2d: 'Каждый доллар, вложенный в готовность, экономит тринадцать после удара стихии.',
+s3k: 'Сила природы', s3d: 'Ущерба от наводнений предотвращают мангровые леса — природа уже работает щитом.',
+mediaLabel: 'Фото или видео', partnersLabel: 'Логотипы партнёров',
+src: 'Источники: Swiss Re Institute (2024) · U.S. Chamber of Commerce / Allstate · Menéndez et al., Scientific Reports (2020)',
+apEyebrow: 'Наш подход', apTitle: 'Мы проектируем вместе с планетой, а не против неё.',
+apLead: 'Восстанавливая баланс между застройкой и природными системами, мы создаём среду, которая лечит, защищает и укрепляет сообщества.',
+p1title: 'Управление рисками катастроф', p1body: 'Помогаем сообществам и организациям готовиться к бедствиям, реагировать и восстанавливаться: комплексное планирование, обучение и поддержка на месте для устойчивости и быстрого возврата.',
+p2title: 'Природные решения', p2body: 'Проектируем «вместе с планетой»: водно-болотные буферы, зелёная инфраструктура и восстановленные экосистемы, которые сами защищают побережья и города.',
+cyEyebrow: 'Управление рисками', cyTitle: 'Полный цикл — до, во время и после удара.',
+cy1t: 'Митигация', cy1d: 'Снижаем риск заранее', cy2t: 'Подготовка', cy2d: 'Планы и обучение команд',
+cy3t: 'Реагирование', cy3d: 'Поддержка на месте', cy4t: 'Восстановление', cy4d: 'Быстрый возврат к норме',
+rsTitle: 'Наука, проверенная практикой.', rsBody: 'Сотрудничаем с университетами, нацлабораториями и НКО: пилотируем природные модели и измеряем их эффект в снижении рисков — мост между наукой и практикой устойчивости.',
+ctaTitle: 'Готовы строить устойчивость вашего сообщества?',
+footTag: 'Укрепляем устойчивость сообществ через научно обоснованные решения.',
+fc1h: 'Разделы', fc2h: 'Контакты', fl1: 'Управление рисками', fl2: 'Природные решения', fl3: 'Исследования', fl4: 'Insights', fl5: 'Связаться', fl6: 'О нас'
+},
+en: {
+name: 'English', code: 'EN',
+nav: ['Home', 'DRM', 'Nature', 'Research', 'Insights'],
+contact: 'Contact us',
+eyebrow: 'Solutions for Tomorrow',
+title: 'When disaster strikes, <em>preparedness</em> decides everything.',
+sub: 'Disaster risk management and nature-based solutions — helping communities prepare, respond, and recover.',
+hint: 'Scroll', watch: 'Global Watch', upd: 'updated', demo: 'demo data',
+more: 'Full monitoring →', ours: 'Our analysis',
+now: 'just now', h: 'h ago', d: 'd ago', quake: 'Earthquake',
+autoEONET: 'Active event observed by NASA EONET.',
+autoUSGS: 'Significant seismic event reported by USGS.',
+stEyebrow: 'The cost of unpreparedness', stTitle: 'The cost of unpreparedness — and what changes it.',
+s1k: 'Protection gap', s1d: 'Of 2024 disaster losses went uninsured — communities absorbed the blow themselves.',
+s2k: 'Preparedness pays', s2d: 'Every dollar invested in preparedness saves thirteen after disaster strikes.',
+s3k: 'Powered by nature', s3d: 'In flood damage is prevented by mangroves each year — nature already works as a shield.',
+mediaLabel: 'Photo or video', partnersLabel: 'Partner logos',
+src: 'Sources: Swiss Re Institute (2024) · U.S. Chamber of Commerce / Allstate · Menéndez et al., Scientific Reports (2020)',
+apEyebrow: 'Our approach', apTitle: 'We design with the planet, not against it.',
+apLead: 'By restoring the balance between human development and natural systems, we create environments that heal, protect, and empower communities.',
+p1title: 'Disaster risk management', p1body: 'We help communities and organizations prepare for, respond to, and recover from disasters — comprehensive planning, training, and on-site support for resilience and rapid recovery.',
+p2title: 'Nature-based solutions', p2body: 'We design with the planet: wetland buffers, green infrastructure, and restored ecosystems that protect coastlines and cities on their own.',
+cyEyebrow: 'Disaster risk management', cyTitle: 'The full cycle — before, during, and after the hit.',
+cy1t: 'Mitigation', cy1d: 'Reduce risk in advance', cy2t: 'Preparedness', cy2d: 'Plans and team training',
+cy3t: 'Response', cy3d: 'On-site support', cy4t: 'Recovery', cy4d: 'Rapid return to normal',
+rsTitle: 'Science, proven in practice.', rsBody: 'We collaborate with universities, national labs, and nonprofits to pilot nature-based models and quantify their risk-reduction impact — a bridge between science and resilience practice.',
+ctaTitle: 'Ready to build your community\u2019s resilience?',
+footTag: 'Strengthening community resilience through science-based solutions.',
+fc1h: 'Explore', fc2h: 'Connect', fl1: 'Risk management', fl2: 'Nature-based', fl3: 'Research', fl4: 'Insights', fl5: 'Contact', fl6: 'About'
+},
+es: {
+name: 'Español', code: 'ES',
+nav: ['Inicio', 'DRM', 'Naturaleza', 'Investigación', 'Insights'],
+contact: 'Contacto',
+eyebrow: 'Solutions for Tomorrow',
+title: 'Cuando llega el desastre, la <em>preparación</em> lo decide todo.',
+sub: 'Gestión de riesgos de desastres y soluciones basadas en la naturaleza: ayudamos a las comunidades a prepararse, responder y recuperarse.',
+hint: 'Desliza', watch: 'Global Watch', upd: 'actualizado', demo: 'datos de demo',
+more: 'Ver monitoreo →', ours: 'Nuestro análisis',
+now: 'ahora mismo', h: ' h atrás', d: ' d atrás', quake: 'Terremoto',
+autoEONET: 'Evento activo observado por NASA EONET.',
+autoUSGS: 'Evento sísmico significativo según USGS.',
+stEyebrow: 'El costo de la falta de preparación', stTitle: 'El costo de no estar preparados — y qué lo cambia.',
+s1k: 'Brecha de protección', s1d: 'De las pérdidas por desastres de 2024 no estaban aseguradas — las comunidades asumieron el golpe.',
+s2k: 'Prepararse rinde', s2d: 'Cada dólar invertido en preparación ahorra trece tras el desastre.',
+s3k: 'El poder de la naturaleza', s3d: 'En daños por inundaciones evitan los manglares cada año — la naturaleza ya actúa como escudo.',
+mediaLabel: 'Foto o video', partnersLabel: 'Logos de socios',
+src: 'Fuentes: Swiss Re Institute (2024) · U.S. Chamber of Commerce / Allstate · Menéndez et al., Scientific Reports (2020)',
+apEyebrow: 'Nuestro enfoque', apTitle: 'Diseñamos con el planeta, no contra él.',
+apLead: 'Al restaurar el equilibrio entre el desarrollo humano y los sistemas naturales, creamos entornos que sanan, protegen y fortalecen a las comunidades.',
+p1title: 'Gestión de riesgos de desastres', p1body: 'Ayudamos a comunidades y organizaciones a prepararse, responder y recuperarse: planificación integral, capacitación y apoyo en el terreno para la resiliencia y una recuperación rápida.',
+p2title: 'Soluciones basadas en la naturaleza', p2body: 'Diseñamos con el planeta: humedales de amortiguación, infraestructura verde y ecosistemas restaurados que protegen costas y ciudades por sí mismos.',
+cyEyebrow: 'Gestión de riesgos', cyTitle: 'El ciclo completo — antes, durante y después del impacto.',
+cy1t: 'Mitigación', cy1d: 'Reducir el riesgo antes', cy2t: 'Preparación', cy2d: 'Planes y capacitación',
+cy3t: 'Respuesta', cy3d: 'Apoyo en el terreno', cy4t: 'Recuperación', cy4d: 'Retorno rápido a la normalidad',
+rsTitle: 'Ciencia, comprobada en la práctica.', rsBody: 'Colaboramos con universidades, laboratorios nacionales y ONG para pilotar modelos naturales y cuantificar su impacto — un puente entre la ciencia y la práctica de la resiliencia.',
+ctaTitle: '¿Listo para fortalecer la resiliencia de tu comunidad?',
+footTag: 'Fortalecemos la resiliencia comunitaria con soluciones basadas en la ciencia.',
+fc1h: 'Explorar', fc2h: 'Conectar', fl1: 'Gestión de riesgos', fl2: 'Naturaleza', fl3: 'Investigación', fl4: 'Insights', fl5: 'Contacto', fl6: 'Nosotros'
+},
+zh: {
+name: '中文', code: 'ZH',
+nav: ['首页', '风险管理', '自然方案', '研究', '洞察'],
+contact: '联系我们',
+eyebrow: 'Solutions for Tomorrow',
+title: '灾难来临时，<em>准备</em>决定一切。',
+sub: '灾害风险管理与自然解决方案——帮助社区做好准备、有效应对、快速恢复。',
+hint: '滑动', watch: 'Global Watch', upd: '更新于', demo: '演示数据',
+more: '查看全部 →', ours: '我们的分析',
+now: '刚刚', h: ' 小时前', d: ' 天前', quake: '地震',
+autoEONET: 'NASA EONET 观测到的活跃事件。',
+autoUSGS: 'USGS 记录的重大地震事件。',
+stEyebrow: '缺乏准备的代价', stTitle: '缺乏准备的代价——以及如何改变。',
+s1k: '保障缺口', s1d: '2024 年灾害损失中未投保的比例——由社区自行承担冲击。',
+s2k: '未雨绸缪的回报', s2d: '每投入一美元用于备灾，灾后可节省十三美元。',
+s3k: '自然的力量', s3d: '红树林每年可减少的洪灾损失——自然本身就是屏障。',
+mediaLabel: '照片或视频', partnersLabel: '合作伙伴标识',
+src: '来源：Swiss Re Institute (2024) · 美国商会 / Allstate · Menéndez 等，《Scientific Reports》(2020)',
+apEyebrow: '我们的方法', apTitle: '我们与地球共同设计，而非与之对抗。',
+apLead: '通过恢复人类发展与自然系统之间的平衡，我们营造出能够修复、保护并赋能社区的环境。',
+p1title: '灾害风险管理', p1body: '帮助社区与组织做好准备、有效应对并快速恢复：全面规划、培训与现场支持，提升韧性、加速恢复。',
+p2title: '基于自然的解决方案', p2body: '我们顺应自然设计：湿地缓冲、绿色基础设施与修复的生态系统，自主守护海岸与城市。',
+cyEyebrow: '灾害风险管理', cyTitle: '完整周期——冲击之前、之中与之后。',
+cy1t: '减灾', cy1d: '提前降低风险', cy2t: '准备', cy2d: '预案与团队培训',
+cy3t: '响应', cy3d: '现场支持', cy4t: '恢复', cy4d: '快速回归常态',
+rsTitle: '经实践检验的科学。', rsBody: '我们与高校、国家实验室及非营利组织合作，试点自然方案并量化其降险成效——架起科学与韧性实践之间的桥梁。',
+ctaTitle: '准备好增强您社区的韧性了吗？',
+footTag: '以科学为基础的方案增强社区韧性。',
+fc1h: '栏目', fc2h: '联系', fl1: '风险管理', fl2: '自然方案', fl3: '研究', fl4: '洞察', fl5: '联系我们', fl6: '关于我们'
+}
+};
+var LANG = 'ru';
+var OUR_ANALYSIS = [
+];
+var MAX_CARDS = 4;
+var DEMO_EVENTS = [
+{ type: 'flood', lat: 29.95, lon: -90.07, time: Date.now() - 6*3600e3, url: 'https://www.gdacs.org',
+i18n: { ru: ['Наводнение — Новый Орлеан, США', 'Штормовой нагон, подтоплены прибрежные районы. Идёт эвакуация.'],
+en: ['Flooding — New Orleans, USA', 'Storm surge flooding coastal districts. Evacuation underway.'],
+es: ['Inundación — Nueva Orleans, EE. UU.', 'Marejada ciclónica inunda zonas costeras. Evacuación en curso.'],
+zh: ['洪水 — 美国新奥尔良', '风暴潮淹没沿海地区，疏散正在进行。'] } },
+{ type: 'storm', lat: 13.5, lon: 122.5, time: Date.now() - 11*3600e3, url: 'https://www.gdacs.org',
+i18n: { ru: ['Тайфун — Филиппины', 'Категория 4, ожидается выход на сушу в течение суток.'],
+en: ['Typhoon — Philippines', 'Category 4, landfall expected within 24 hours.'],
+es: ['Tifón — Filipinas', 'Categoría 4, se espera que toque tierra en 24 horas.'],
+zh: ['台风 — 菲律宾', '四级台风，预计24小时内登陆。'] } },
+{ type: 'quake', lat: -13.5, lon: -76.2, time: Date.now() - 26*3600e3, url: 'https://earthquake.usgs.gov',
+i18n: { ru: ['Землетрясение M6.8 — Перу', 'Толчки в прибрежной зоне, продолжается оценка ущерба.'],
+en: ['M6.8 earthquake — Peru', 'Coastal tremors, damage assessment ongoing.'],
+es: ['Terremoto M6.8 — Perú', 'Sismos en la zona costera, evaluación de daños en curso.'],
+zh: ['6.8级地震 — 秘鲁', '沿海地区震感明显，损失评估进行中。'] } },
+{ type: 'wildfire', lat: 38.2, lon: 23.8, time: Date.now() - 50*3600e3, url: 'https://eonet.gsfc.nasa.gov',
+i18n: { ru: ['Лесные пожары — Греция', 'Два фронта у побережья, задействована пожарная авиация.'],
+en: ['Wildfires — Greece', 'Two coastal fire fronts, aerial firefighting deployed.'],
+es: ['Incendios forestales — Grecia', 'Dos frentes costeros, aviación contra incendios desplegada.'],
+zh: ['森林火灾 — 希腊', '沿海两条火线，消防飞机已出动。'] } }
+];
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var MAPS = {
+day: [
+'https://cdn.jsdelivr.net/gh/vasturiano/three-globe@master/example/img/earth-blue-marble.jpg',
+'https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-blue-marble.jpg'
+],
+night: [
+'https://cdn.jsdelivr.net/gh/vasturiano/three-globe@master/example/img/earth-night.jpg',
+'https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-night.jpg'
+],
+spec: [
+'https://cdn.jsdelivr.net/gh/vasturiano/three-globe@master/example/img/earth-water.png',
+'https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-water.png'
+],
+clouds: [
+'https://cdn.jsdelivr.net/gh/turban/webgl-earth@master/images/fair_clouds_4k.png',
+'https://raw.githubusercontent.com/turban/webgl-earth/master/images/fair_clouds_4k.png'
+]
+};
+var canvas = document.getElementById('scene');
+var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+var MAX_ANISO = renderer.capabilities.getMaxAnisotropy();
+var scene = new THREE.Scene();
+scene.background = new THREE.Color(0x030407);
+var camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.05, 100);
+var CAM_START = 2.9;
+var CAM_END   = 2.02;
+camera.position.set(0.55, -0.35, CAM_START);
+var sunDir = new THREE.Vector3(-1.7, 0.25, -0.78).normalize();
+var loaderEl = document.getElementById('loader');
+var introReady = false, loaderHidden = false;
+function hideLoader() {
+if (loaderHidden) return;
+loaderHidden = true;
+loaderEl.classList.add('hidden');
+setTimeout(function () { introReady = true; }, 2500);
+}
+setTimeout(hideLoader, 4500);
+var texLoader = new THREE.TextureLoader();
+texLoader.setCrossOrigin('anonymous');
+var settled = 0, NEED = 3;
+function onSettled() { settled++; if (settled >= NEED) hideLoader(); }
+function prepTex(tex, isColor) {
+if (isColor) tex.encoding = THREE.sRGBEncoding;
+tex.anisotropy = MAX_ANISO;
+return tex;
+}
+function loadWithFallback(urls, isColor, blocking, onDone) {
+var attempt = 0;
+function tryNext() {
+if (attempt >= urls.length) { if (blocking) onSettled(); onDone(null); return; }
+var url = urls[attempt]; attempt++;
+texLoader.load(url, function (tex) {
+if (blocking) onSettled();
+onDone(prepTex(tex, isColor));
+}, undefined, tryNext);
+}
+tryNext();
+}
+var earthUniforms = {
+dayTexture:   { value: null },
+nightTexture: { value: null },
+specTexture:  { value: null },
+sunDirection: { value: sunDir },
+uHasTex:      { value: 0.0 }
+};
+function texArrived(slot) {
+return function (tex) {
+if (!tex) return;
+earthUniforms[slot].value = tex;
+if (earthUniforms.dayTexture.value && earthUniforms.nightTexture.value) {
+earthUniforms.uHasTex.value = 1.0;
+}
+};
+}
+loadWithFallback(MAPS.day,   true,  true, texArrived('dayTexture'));
+loadWithFallback(MAPS.night, true,  true, texArrived('nightTexture'));
+loadWithFallback(MAPS.spec,  false, true, texArrived('specTexture'));
+var planet = new THREE.Group();
+scene.add(planet);
+var earthMat = new THREE.ShaderMaterial({
+uniforms: earthUniforms,
+vertexShader: [
+'varying vec2 vUv;',
+'varying vec3 vNormalW;',
+'varying vec3 vPosW;',
+'void main() {',
+'  vUv = uv;',
+'  vNormalW = normalize(mat3(modelMatrix) * normal);',
+'  vPosW = (modelMatrix * vec4(position, 1.0)).xyz;',
+'  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+'}'
+].join('\n'),
+fragmentShader: [
+'uniform sampler2D dayTexture;',
+'uniform sampler2D nightTexture;',
+'uniform sampler2D specTexture;',
+'uniform vec3 sunDirection;',
+'uniform float uHasTex;',
+'varying vec2 vUv;',
+'varying vec3 vNormalW;',
+'varying vec3 vPosW;',
+'void main() {',
+'  vec3 N = normalize(vNormalW);',
+'  float sunDot = dot(N, normalize(sunDirection));',
+'  float dayAmt = smoothstep(-0.12, 0.35, sunDot);',
+'  vec3 dayCol; vec3 lights; float specMask;',
+'  if (uHasTex > 0.5) {',
+'    dayCol = texture2D(dayTexture, vUv).rgb;',
+'    lights = texture2D(nightTexture, vUv).rgb;',
+'    specMask = texture2D(specTexture, vUv).r;',
+'  } else {',
+'    float lat = smoothstep(0.0, 1.0, vUv.y);',
+'    dayCol = mix(vec3(0.016, 0.045, 0.085), vec3(0.05, 0.10, 0.16), lat);',
+'    lights = vec3(0.0);',
+'    specMask = 0.35;',
+'  }',
+'  float rim = smoothstep(-0.12, 0.12, sunDot) * (1.0 - smoothstep(0.12, 0.45, sunDot));',
+'  dayCol = mix(dayCol, dayCol * vec3(1.25, 0.85, 0.6), rim * 0.85);',
+'  vec3 moonlit = dayCol * vec3(0.10, 0.13, 0.18);',
+'  vec3 nightCol = moonlit + pow(lights, vec3(1.2)) * vec3(1.55, 1.1, 0.6) * 1.9;',
+'  vec3 color = mix(nightCol, dayCol, dayAmt);',
+'  vec3 V = normalize(cameraPosition - vPosW);',
+'  vec3 H = normalize(normalize(sunDirection) + V);',
+'  float spec = pow(max(dot(N, H), 0.0), 24.0) * specMask;',
+'  color += spec * vec3(0.55, 0.65, 0.75) * dayAmt;',
+'  float fres = pow(1.0 - max(dot(N, V), 0.0), 2.6);',
+'  color += fres * vec3(0.24, 0.42, 0.75) * (0.45 + 0.55 * dayAmt);',
+'  gl_FragColor = vec4(color, 1.0);',
+'}'
+].join('\n')
+});
+var earth = new THREE.Mesh(new THREE.SphereGeometry(1, 128, 128), earthMat);
+earth.rotation.y = 3.9;
+planet.add(earth);
+var cloudUniforms = {
+cloudTexture: { value: null },
+sunDirection: { value: sunDir },
+uOpacity:     { value: 1.0 }
+};
+var cloudsMesh = null;
+loadWithFallback(MAPS.clouds, true, false, function (tex) {
+if (!tex) return;
+cloudUniforms.cloudTexture.value = tex;
+var cloudMat = new THREE.ShaderMaterial({
+uniforms: cloudUniforms,
+transparent: true, depthWrite: false,
+vertexShader: [
+'varying vec2 vUv;',
+'varying vec3 vNormalW;',
+'void main() {',
+'  vUv = uv;',
+'  vNormalW = normalize(mat3(modelMatrix) * normal);',
+'  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+'}'
+].join('\n'),
+fragmentShader: [
+'uniform sampler2D cloudTexture;',
+'uniform vec3 sunDirection;',
+'uniform float uOpacity;',
+'varying vec2 vUv;',
+'varying vec3 vNormalW;',
+'void main() {',
+'  vec4 c = texture2D(cloudTexture, vUv);',
+'  float lit = smoothstep(-0.15, 0.3, dot(normalize(vNormalW), normalize(sunDirection)));',
+'  vec3 col = mix(vec3(0.10, 0.14, 0.22), vec3(1.0), lit);',
+'  float a = c.a * uOpacity * (0.16 + 0.84 * lit);',
+'  gl_FragColor = vec4(col, a);',
+'}'
+].join('\n')
+});
+cloudsMesh = new THREE.Mesh(new THREE.SphereGeometry(1.012, 128, 128), cloudMat);
+cloudsMesh.rotation.y = 3.9;
+planet.add(cloudsMesh);
+});
+var glowMat = new THREE.ShaderMaterial({
+uniforms: { sunDirection: { value: sunDir } },
+side: THREE.BackSide, transparent: true,
+blending: THREE.AdditiveBlending, depthWrite: false,
+vertexShader: [
+'varying vec3 vNormalW;',
+'varying vec3 vPosW;',
+'void main() {',
+'  vNormalW = normalize(mat3(modelMatrix) * normal);',
+'  vPosW = (modelMatrix * vec4(position, 1.0)).xyz;',
+'  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+'}'
+].join('\n'),
+fragmentShader: [
+'uniform vec3 sunDirection;',
+'varying vec3 vNormalW;',
+'varying vec3 vPosW;',
+'void main() {',
+'  vec3 V = normalize(cameraPosition - vPosW);',
+'  float intensity = pow(0.62 - dot(normalize(vNormalW), V), 3.2);',
+'  float lit = 0.55 + 0.45 * max(dot(normalize(vNormalW), normalize(sunDirection)), 0.0);',
+'  gl_FragColor = vec4(vec3(0.35, 0.6, 1.0) * intensity * lit, intensity);',
+'}'
+].join('\n')
+});
+planet.add(new THREE.Mesh(new THREE.SphereGeometry(1.035, 96, 96), glowMat));
+(function stars() {
+var COUNT = 2600;
+var pos = new Float32Array(COUNT * 3);
+for (var i = 0; i < COUNT; i++) {
+var r = 30 + Math.random() * 40;
+var t = Math.random() * Math.PI * 2;
+var p = Math.acos(2 * Math.random() - 1);
+pos[i * 3]     = r * Math.sin(p) * Math.cos(t);
+pos[i * 3 + 1] = r * Math.sin(p) * Math.sin(t);
+pos[i * 3 + 2] = r * Math.cos(p);
+}
+var g = new THREE.BufferGeometry();
+g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+var m = new THREE.PointsMaterial({
+color: 0xcfd8ea, size: 0.055, sizeAttenuation: true,
+transparent: true, opacity: 0.85, depthWrite: false
+});
+scene.add(new THREE.Points(g, m));
+})();
+function makeGlowTexture() {
+var c = document.createElement('canvas');
+c.width = 128; c.height = 128;
+var ctx = c.getContext('2d');
+var grd = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+grd.addColorStop(0,   'rgba(210,228,255,0.9)');
+grd.addColorStop(0.3, 'rgba(180,205,245,0.35)');
+grd.addColorStop(1,   'rgba(160,190,240,0)');
+ctx.fillStyle = grd;
+ctx.fillRect(0, 0, 128, 128);
+return new THREE.CanvasTexture(c);
+}
+var glowTex = makeGlowTexture();
+function latLonToVec3(lat, lon, r) {
+var phi = (90 - lat) * Math.PI / 180;
+var theta = (lon + 180) * Math.PI / 180;
+return new THREE.Vector3(
+-r * Math.sin(phi) * Math.cos(theta),
+r * Math.cos(phi),
+r * Math.sin(phi) * Math.sin(theta)
+);
+}
+var markers = [];
+function addMarker(ev) {
+var pos = latLonToVec3(ev.lat, ev.lon, 1.012);
+var group = new THREE.Group();
+group.position.copy(pos);
+var core = new THREE.Mesh(
+new THREE.SphereGeometry(0.009, 16, 16),
+new THREE.MeshBasicMaterial({ color: 0xEAF2FF })
+);
+group.add(core);
+var sprMat = new THREE.SpriteMaterial({
+map: glowTex, transparent: true, opacity: 0.55,
+blending: THREE.AdditiveBlending, depthWrite: false
+});
+var sprite = new THREE.Sprite(sprMat);
+sprite.scale.set(0.09, 0.09, 1);
+group.add(sprite);
+earth.add(group);
+markers.push({ group: group, core: core, sprite: sprite, dir: pos.clone().normalize(), event: ev });
+}
+var TYPE_META = {
+flood:    { label: 'Flood',    icon: 'M3 14c2-2 4-2 6 0s4 2 6 0 4-2 6 0M3 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0' },
+storm:    { label: 'Cyclone',  icon: 'M12 3a9 9 0 1 0 9 9M12 7a5 5 0 1 0 5 5M12 12h.01' },
+quake:    { label: 'Quake',    icon: 'M2 12h4l2-6 3 12 3-9 2 3h6' },
+wildfire: { label: 'Wildfire', icon: 'M12 3c1 3-3 5-3 9a5 5 0 0 0 10 0c0-2-1-4-2-5-1 2-2 2-3 1 1-2 0-4-2-5z' },
+volcano:  { label: 'Volcano',  icon: 'M8 10l4-6 4 6M4 20l4-8h8l4 8z' },
+other:    { label: 'Event',    icon: 'M12 8v5M12 16h.01M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z' }
+};
+function eonetType(catId) {
+if (catId === 'floods') return 'flood';
+if (catId === 'severeStorms') return 'storm';
+if (catId === 'wildfires') return 'wildfire';
+if (catId === 'volcanoes') return 'volcano';
+if (catId === 'earthquakes') return 'quake';
+return 'other';
+}
+function fetchEONET() {
+return fetch('https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=25')
+.then(function (r) { return r.json(); })
+.then(function (data) {
+var out = [];
+(data.events || []).forEach(function (e) {
+if (!e.geometry || !e.geometry.length) return;
+var g = e.geometry[e.geometry.length - 1];
+var coords = g.coordinates;
+if (!coords || coords.length < 2 || typeof coords[0] !== 'number') return;
+var cat = (e.categories && e.categories[0] && e.categories[0].id) || '';
+out.push({
+title: e.title,
+blurbKey: 'autoEONET',
+type: eonetType(cat),
+lat: coords[1], lon: coords[0],
+time: new Date(g.date).getTime(),
+url: (e.sources && e.sources[0] && e.sources[0].url) || 'https://eonet.gsfc.nasa.gov'
+});
+});
+return out;
+});
+}
+function fetchUSGS() {
+return fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson')
+.then(function (r) { return r.json(); })
+.then(function (data) {
+return (data.features || []).map(function (f) {
+return {
+titleKey: { mag: f.properties.mag, place: f.properties.place },
+blurbKey: 'autoUSGS',
+type: 'quake',
+lat: f.geometry.coordinates[1],
+lon: f.geometry.coordinates[0],
+time: f.properties.time,
+url: f.properties.url
+};
+});
+});
+}
+function relTime(t) {
+var L = I18N[LANG];
+var d = Math.max(0, Date.now() - t);
+var h = Math.floor(d / 3600e3);
+if (h < 1) return L.now;
+if (h < 24) return h + L.h;
+return Math.floor(h / 24) + L.d;
+}
+function eventTitle(ev) {
+if (ev.i18n) return ev.i18n[LANG][0];
+if (ev.titleKey) return I18N[LANG].quake + ' M' + ev.titleKey.mag + ' — ' + ev.titleKey.place;
+return ev.title || '';
+}
+function eventBlurb(ev) {
+if (ev.i18n) return ev.i18n[LANG][1];
+if (ev.blurbKey) return I18N[LANG][ev.blurbKey];
+return '';
+}
+function applyOurAnalysis(ev) {
+var t = (eventTitle(ev) + ' ' + (ev.title || '')).toLowerCase();
+for (var i = 0; i < OUR_ANALYSIS.length; i++) {
+if (t.indexOf(OUR_ANALYSIS[i].match.toLowerCase()) !== -1) {
+ev.ours = true;
+ev.url = OUR_ANALYSIS[i].url;
+return;
+}
+}
+}
+var cardsEl = document.getElementById('cards');
+var updEl = document.getElementById('watch-upd');
+var lastEvents = [];
+var cardEls = [];
+var isDemo = false;
+var updTime = '';
+function svgIcon(path) {
+return '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="' + path + '"/></svg>';
+}
+function renderCards() {
+cardsEl.innerHTML = '';
+cardEls = [];
+lastEvents.forEach(function (ev, idx) {
+var meta = TYPE_META[ev.type] || TYPE_META.other;
+var a = document.createElement('a');
+a.className = 'card';
+a.href = ev.url;
+a.target = '_blank';
+a.rel = 'noopener';
+a.innerHTML =
+'<div class="card-icon">' + svgIcon(meta.icon) + '</div>' +
+'<div class="card-body">' +
+'<p class="card-title">' + eventTitle(ev) + '</p>' +
+'<p class="card-blurb">' + eventBlurb(ev) + '</p>' +
+'<div class="card-meta">' +
+'<span>' + meta.label + '</span><span>·</span><span>' + relTime(ev.time) + '</span>' +
+(ev.ours ? '<span class="card-badge">' + I18N[LANG].ours + '</span>' : '') +
+'</div>' +
+'</div>';
+a.addEventListener('mouseenter', function () { focusMarker(idx); });
+a.addEventListener('mouseleave', function () { unfocusMarker(); });
+cardsEl.appendChild(a);
+cardEls.push(a);
+});
+updEl.textContent = isDemo ? I18N[LANG].demo : (I18N[LANG].upd + ' ' + updTime);
+}
+Promise.all([
+fetchEONET().catch(function () { return []; }),
+fetchUSGS().catch(function () { return []; })
+]).then(function (res) {
+var all = res[0].concat(res[1]);
+all.sort(function (a, b) { return b.time - a.time; });
+var events = all.slice(0, MAX_CARDS);
+if (!events.length) { events = DEMO_EVENTS; isDemo = true; }
+events.forEach(applyOurAnalysis);
+lastEvents = events;
+updTime = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+lastEvents.forEach(addMarker);
+renderCards();
+});
+var focusedIdx = -1;
+var desiredRotY = null;
+function focusMarker(idx) {
+focusedIdx = idx;
+var m = markers[idx];
+if (!m) return;
+var camAngle = Math.atan2(camera.position.x - planet.position.x, camera.position.z - planet.position.z);
+var local = Math.atan2(m.dir.x, m.dir.z);
+desiredRotY = camAngle - local;
+}
+function unfocusMarker() {
+focusedIdx = -1;
+desiredRotY = null;
+}
+function shortestAngle(from, to) {
+var d = (to - from) % (Math.PI * 2);
+if (d > Math.PI) d -= Math.PI * 2;
+if (d < -Math.PI) d += Math.PI * 2;
+return d;
+}
+var langFlag = document.getElementById('lang-flag');
+var langCode = document.getElementById('lang-code');
+var langMenu = document.getElementById('lang-menu');
+var langWrap = document.getElementById('lang');
+function applyLang(l) {
+LANG = l;
+var L = I18N[l];
+document.documentElement.lang = l;
+var navLinks = document.querySelectorAll('#nav .nav-link');
+for (var i = 0; i < navLinks.length; i++) navLinks[i].textContent = L.nav[i];
+document.getElementById('contact-btn').childNodes[0].textContent = L.contact;
+document.getElementById('t-eyebrow').textContent = L.eyebrow;
+document.getElementById('t-title').innerHTML = L.title;
+document.getElementById('t-sub').textContent = L.sub;
+document.getElementById('t-hint').textContent = L.hint;
+document.getElementById('watch-title').textContent = L.watch;
+document.getElementById('watch-more').textContent = L.more;
+langFlag.innerHTML = FLAGS[l];
+langCode.textContent = L.code;
+renderLangMenu();
+renderCards();
+try { window.parent.postMessage({ type: 'setLanguage', value: l }, '*'); } catch (e) {}
+}
+function renderLangMenu() {
+langMenu.innerHTML = '';
+['ru', 'en', 'es', 'zh'].forEach(function (l) {
+var item = document.createElement('div');
+item.className = 'lang-item' + (l === LANG ? ' sel' : '');
+item.innerHTML = '<span class="flag">' + FLAGS[l] + '</span><span>' + I18N[l].name + '</span>';
+item.addEventListener('click', function () {
+applyLang(l);
+langWrap.classList.remove('open');
+});
+langMenu.appendChild(item);
+});
+}
+document.getElementById('lang-btn').addEventListener('click', function (e) {
+e.stopPropagation();
+langWrap.classList.toggle('open');
+});
+document.addEventListener('click', function () { langWrap.classList.remove('open'); });
+applyLang('ru');
+(function brandIntro() {
+var brand = document.querySelector('.brand');
+brand.classList.add('logo-in');
+setTimeout(function () { brand.classList.add('word-in'); }, 900);
+})();
+var zoomTarget = 0, zoom = 0;
+var recedeTarget = 0, recede = 0;
+var completeSent = false;
+var overlay = document.getElementById('overlay');
+var hint = document.getElementById('hint');
+var watch = document.getElementById('watch');
+var watchHead = document.getElementById('watch-head');
+var watchMore = document.getElementById('watch-more');
+var topbar = document.getElementById('topbar');
+var recedeDark = document.getElementById('recede-dark');
+function addZoom(d){ zoomTarget = Math.min(1, Math.max(0, zoomTarget + d)); }
+window.addEventListener('wheel', function (e) {
+var down = e.deltaY > 0;
+if ((down && zoomTarget < 1) || (!down && zoomTarget > 0)) {
+e.preventDefault();
+addZoom(e.deltaY * 0.00075);
+}
+}, { passive: false });
+var lastTouchY = null;
+window.addEventListener('touchstart', function (e) { lastTouchY = e.touches[0].clientY; }, { passive: true });
+window.addEventListener('touchmove', function (e) {
+if (lastTouchY === null) return;
+var dy = lastTouchY - e.touches[0].clientY;
+lastTouchY = e.touches[0].clientY;
+if ((dy > 0 && zoomTarget < 1) || (dy < 0 && zoomTarget > 0)) {
+e.preventDefault();
+addZoom(dy * 0.0022);
+}
+}, { passive: false });
+window.addEventListener('message', function (e) {
+var d = e.data;
+if (!d || typeof d !== 'object') return;
+if (d.type === 'recede') recedeTarget = Math.min(1, Math.max(0, Number(d.value) || 0));
+if (d.type === 'setLanguage' && I18N[d.value]) applyLang(d.value);
+});
+var mx = 0, my = 0;
+window.addEventListener('mousemove', function (e) {
+mx = (e.clientX / window.innerWidth - 0.5);
+my = (e.clientY / window.innerHeight - 0.5);
+});
+window.addEventListener('resize', function () {
+camera.aspect = window.innerWidth / window.innerHeight;
+camera.updateProjectionMatrix();
+renderer.setSize(window.innerWidth, window.innerHeight);
+});
+function easeInOut(t) { return t * t * (3 - 2 * t); }
+var clock = new THREE.Clock();
+var elapsed = 0;
+function tick() {
+requestAnimationFrame(tick);
+var dt = Math.min(clock.getDelta(), 0.05);
+elapsed += dt;
+zoom += (zoomTarget - zoom) * Math.min(1, dt * 4.5);
+recede += (recedeTarget - recede) * Math.min(1, dt * 4.5);
+var z = easeInOut(zoom);
+var rr = easeInOut(recede);
+if (desiredRotY !== null) {
+var d = shortestAngle(earth.rotation.y, desiredRotY);
+earth.rotation.y += d * Math.min(1, dt * 2.6);
+} else if (!reduceMotion) {
+earth.rotation.y += 0.0105 * dt * (1 - z * 0.55);
+}
+if (cloudsMesh && !reduceMotion) cloudsMesh.rotation.y += 0.0140 * dt * (1 - z * 0.55);
+var pMonX = -0.98 * z, pMonY = 0.02 * z;
+var cMonX = (0.55 + mx * 0.05) * (1 - z) + (-0.18 + mx * 0.03) * z;
+var cMonY = (-0.35 - my * 0.05) * (1 - z) + (-0.02 - my * 0.03) * z;
+var cMonZ = CAM_START + (CAM_END - CAM_START) * z;
+var cHeroX = 0.55 + mx * 0.04, cHeroY = -0.35 - my * 0.04, cHeroZ = CAM_START + 0.15;
+planet.position.x = pMonX + (0 - pMonX) * rr;
+planet.position.y = pMonY + (0 - pMonY) * rr;
+camera.position.x = cMonX + (cHeroX - cMonX) * rr;
+camera.position.y = cMonY + (cHeroY - cMonY) * rr;
+camera.position.z = cMonZ + (cHeroZ - cMonZ) * rr;
+camera.lookAt(planet.position.x, planet.position.y, 0);
+recedeDark.style.opacity = (rr * 0.82).toFixed(3);
+var uiFade = 1 - Math.min(1, rr * 1.35);
+topbar.style.opacity = uiFade;
+topbar.style.pointerEvents = (rr > 0.5) ? 'none' : '';
+if (recede <= 0.001) {
+watchHead.style.opacity = '';
+watchMore.style.opacity = '';
+for (var ci = 0; ci < cardEls.length; ci++) {
+cardEls[ci].style.opacity = '';
+cardEls[ci].style.transform = '';
+cardEls[ci].style.pointerEvents = '';
+}
+} else {
+watchHead.style.opacity = (1 - Math.min(1, recede * 2.4)).toFixed(3);
+var n = cardEls.length;
+var STEP = 0.12, WIN = 0.34;
+for (var cj = 0; cj < n; cj++) {
+var pj = Math.min(1, Math.max(0, (recede - cj * STEP) / WIN));
+var ej = easeInOut(pj);
+cardEls[cj].style.opacity = (1 - ej).toFixed(3);
+cardEls[cj].style.transform = 'translateX(' + (ej * 72).toFixed(1) + 'px) scale(' + (1 - ej * 0.08).toFixed(3) + ')';
+cardEls[cj].style.pointerEvents = ej > 0.1 ? 'none' : '';
+}
+var lp = Math.min(1, Math.max(0, (recede - (n - 1) * STEP) / WIN));
+watchMore.style.opacity = (1 - easeInOut(lp)).toFixed(3);
+}
+for (var i = 0; i < markers.length; i++) {
+var m = markers[i];
+var isFocus = (i === focusedIdx);
+var basePulse = 0.09 + Math.sin(elapsed * 2.2 + i * 1.7) * 0.012;
+var targetScale = isFocus ? 0.19 : basePulse;
+var targetOp = (focusedIdx === -1) ? 0.55 : (isFocus ? 0.95 : 0.22);
+m.sprite.scale.x += (targetScale - m.sprite.scale.x) * Math.min(1, dt * 8);
+m.sprite.scale.y = m.sprite.scale.x;
+m.sprite.material.opacity += (targetOp - m.sprite.material.opacity) * Math.min(1, dt * 8);
+var coreScale = isFocus ? 1.5 : 1.0;
+m.core.scale.setScalar(m.core.scale.x + (coreScale - m.core.scale.x) * Math.min(1, dt * 8));
+m.sprite.material.opacity *= (0.25 + 0.75 * z) * (1 - rr);
+}
+if (zoom > 0.04) {
+overlay.classList.add('fading'); hint.classList.add('fading');
+} else {
+overlay.classList.remove('fading'); hint.classList.remove('fading');
+if (introReady) { overlay.classList.add('visible'); hint.classList.add('visible'); }
+}
+if (z > 0.55) watch.classList.add('on'); else watch.classList.remove('on');
+try {
+window.parent.postMessage({ type: 'earthZoomProgress', value: z }, '*');
+if (z > 0.98 && !completeSent) {
+completeSent = true;
+window.parent.postMessage({ type: 'earthZoomComplete' }, '*');
+}
+if (z < 0.9) completeSent = false;
+} catch (err) {}
+renderer.render(scene, camera);
+}
+tick();
+})();</script>
+</body>
+</html>
